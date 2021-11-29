@@ -9,6 +9,9 @@ allow hal_camera_default sysfs_sensors:file r_file_perms;
 r_dir_file(hal_camera_default, efs_file)
 r_dir_file(hal_camera_default, sec_poc_file)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 get_prop(hal_camera_default, vendor_factory_prop)
 set_prop(hal_camera_default, sec_camera_prop)
