@@ -31,17 +31,6 @@
 #
 start_sensors()
 {
-<<<<<<< HEAD
-
-    chmod -h 664 /persist/sensors/sensors_settings
-    chown -h -R system.system /persist/sensors
-    start vendor.sensors.qti
-
-    # Only for SLPI
-    if [ -c /dev/msm_dsps -o -c /dev/sensors ] ; then
-        start vendor.sensors
-    fi
-=======
     mkdir -p /mnt/vendor/persist/sensors
     mkdir -p /persist/sensors
     touch /mnt/vendor/persist/sensors/sensors_settings
@@ -49,7 +38,6 @@ start_sensors()
     chmod -h 664 /mnt/vendor/persist/sensors/sensors_settings
     chmod -h 664 /persist/sensors/sensors_settings
     chown -h -R system.system /persist/sensors
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 }
  
 start_sensors

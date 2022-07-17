@@ -26,17 +26,12 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 #
-<<<<<<< HEAD
 import /vendor/etc/init/hw/init.samsung.rc
 import /vendor/etc/init/hw/init.msm8917.rc
 #import /vendor/etc/init/hw/init.${ro.product.model}.rc
 #import /vendor/etc/init/hw/init.${ro.product.name}.rc
-=======
- 
-#import init.carrier.rc
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 import /vendor/etc/init/hw/init.carrier.rc
- 
+
 on early-init
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules audio_apr audio_adsp_loader audio_q6_notifier audio_q6 audio_usf audio_native audio_pinctrl_wcd audio_swr audio_platform audio_swr_ctrl audio_hdmi audio_wcd9xxx audio_wcd_core audio_wsa881x_analog audio_wsa881x audio_mbhc audio_stub audio_digital_cdc audio_analog_cdc audio_wcd_cpe audio_cpe_lsm audio_wcd9335 audio_machine_sdm450 audio_machine_ext_sdm450
     mkdir /firmware 0771 system system
@@ -44,7 +39,6 @@ on early-init
     mkdir /bt_firmware 0771 system system
     symlink /data/tombstones /tombstones
     mkdir /efs 0771 system radio
-<<<<<<< HEAD
     mkdir /dsp 0771 media media
 
 on fs
@@ -54,58 +48,21 @@ on fs
     setprop ro.crypto.fde_algorithm AES-256-XTS
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
-=======
- 
-on fs
-    wait /dev/block/platform/soc/${ro.boot.bootdevice}
-    symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
- 
-    mount_all /vendor/etc/fstab.qcom
-    setprop ro.crypto.fde_algorithm AES-256-XTS
-    write /proc/sys/vm/swappiness 100
- 
-    wait /dev/block/bootdevice/by-name/cache
-    mount ext4 /dev/block/bootdevice/by-name/cache /cache nosuid nodev noatime noauto_da_alloc,discard,journal_checksum,data=ordered,errors=panic
- 
-    chown root system /mnt/vendor/persist
-    wait /dev/block/bootdevice/by-name/persist
-    mkdir /mnt/vendor/persist 0771 system system
-#   mount ext4 /dev/block/bootdevice/by-name/persist /mnt/vendor/persist nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
-#    mount ext4 /dev/block/bootdevice/by-name/persist /mnt/vendor/persist nosuid nodev noatime noauto_da_alloc,discard,journal_checksum,data=ordered,errors=panic
-    mkdir /mnt/vendor/persist/rfs 0700 system system
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
     mkdir /mnt/vendor/persist/data 0700 system system
     mkdir /mnt/vendor/persist/bms 0700 root system
     restorecon_recursive /mnt/vendor/persist
- 
+
     wait /dev/block/bootdevice/by-name/efs
     mount ext4 /dev/block/bootdevice/by-name/efs /efs nosuid nodev noatime noauto_da_alloc,discard,journal_checksum,data=ordered,errors=panic
     chown system radio /efs
     chmod 0771 /efs
     restorecon -R /efs
-<<<<<<< HEAD
 
     write /proc/sys/vm/swappiness 100
     #write /sys/kernel/boot_adsp/boot 1
     wait /dev/block/bootdevice/by-name/oem
     mount ext4 /dev/block/bootdevice/by-name/oem /oem ro nosuid nodev barrier=1
 
-=======
- 
-    wait /dev/block/bootdevice/by-name/dsp
-    mount ext4 /dev/block/bootdevice/by-name/dsp /vendor/dsp nosuid nodev barrier=1
-    restorecon_recursive /vendor/dsp
-    mount ext4 /dev/block/bootdevice/by-name/dsp /vendor/dsp ro remount nosuid nodev barrier=1
- 
-    wait /dev/block/bootdevice/by-name/apnhlos
-    mount vfat /dev/block/bootdevice/by-name/apnhlos /vendor/firmware_mnt ro context=u:object_r:firmware_file:s0,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337
- 
-    wait /dev/block/bootdevice/by-name/modem
-    mount vfat /dev/block/bootdevice/by-name/modem /vendor/firmware-modem ro context=u:object_r:firmware_file:s0,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337
- 
-    #write /sys/kernel/boot_adsp/boot 1
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 on post-fs
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
@@ -113,14 +70,7 @@ on post-fs
     start vendor.qseecomd
     exec - system system -- /vendor/bin/init.qti.qseecomd.sh
     write /dev/ipa 1
-<<<<<<< HEAD
 
-=======
- 
-    # set RLIMIT_MEMLOCK to 64MB
-    setrlimit 8 67108864 67108864
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 on post-fs-data
     mkdir /data/tombstones 0771 system system
     mkdir /tombstones/modem 0771 system system
@@ -131,7 +81,6 @@ on post-fs-data
     mkdir /persist/data/tz 0700 system system
     mkdir /data/vendor/hbtp 0750 system system
     mkdir /data/misc/dts 0770 media audio
-<<<<<<< HEAD
 
     # Clear existing log and start the service
     rm /cache/boot_log.txt
@@ -146,29 +95,18 @@ on post-fs-data
     chown system wifi /efs/wifi/.mac.cob
     chmod 0666 /efs/wifi/.mac.cob
 
-=======
- 
-# for WIFI MAC address
-    mkdir /mnt/vendor/efs/wifi 0775 wifi root
-    chown wifi root /mnt/vendor/efs/wifi/.mac.info
-    chmod 0664 /mnt/vendor/efs/wifi/.mac.info
-    chown wifi root /mnt/vendor/efs/wifi/.mac.cob
-    chmod 0664 /mnt/vendor/efs/wifi/.mac.cob
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 #Create folder for mm-qcamera-daemon
     mkdir /data/vendor/camera 0770 camera camera
- 
+
 #start camera server as daemon
 service qcamerasvr /system/vendor/bin/mm-qcamera-daemon
     class late_start
     user camera
     group camera system inet input graphics
- 
+
 on init
    write /dev/stune/top-app/schedtune.colocate 1
    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
-<<<<<<< HEAD
 
 #Tag NFC Variants
 on property:ro.boot.product.model=SM-J415FN
@@ -183,134 +121,46 @@ on property:ro.boot.product.model=SM-J610FN
 on property:ro.boot.product.model=SM-J610GN
 	setprop ro.boot.product.hardware.sku msm8917NFC
 
-=======
- 
-   # CONFIG_SEC_DEBUG ++
-   # reset_reason
-   chown system system /proc/reset_reason
-   chmod 0600 /proc/reset_reason
-   chown system system /proc/reset_reason_extra_info
-   chmod 0600 /proc/reset_reason_extra_info
-   chown system system /proc/reset_summary
-   chmod 0600 /proc/reset_summary
-   chown system system /proc/reset_klog
-   chmod 0600 /proc/reset_klog
-   chown system system /proc/reset_tzlog
-   chmod 0600 /proc/reset_tzlog
-   chown system system /proc/store_lastkmsg
-   chmod 0600 /proc/store_lastkmsg
-   chown system system /proc/auto_comment
-   chmod 0600 /proc/auto_comment
-   chown system system /proc/reset_rwc
-   chmod 0600 /proc/reset_rwc
- 
-   # ERR.p(extend rr.p)
-   chown system system /proc/extra
-   chmod 0600 /proc/extra
- 
-   # hw param ap info
-   chown system system /sys/class/sec/sec_hw_param/ap_info
-   chmod 0600 /sys/class/sec/sec_hw_param/ap_info
-   # hw param ddr info
-   chown system system /sys/class/sec/sec_hw_param/ddr_info
-   chmod 0600 /sys/class/sec/sec_hw_param/ddr_info
-   # hw param eye read info
-   chown system system /sys/class/sec/sec_hw_param/eye_rd_info
-   chmod 0600 /sys/class/sec/sec_hw_param/eye_rd_info
-   # hw param eye write1 info
-   chown system system /sys/class/sec/sec_hw_param/eye_wr1_info
-   chmod 0600 /sys/class/sec/sec_hw_param/eye_wr1_info
-   # hw param eye write2 info
-   chown system system /sys/class/sec/sec_hw_param/eye_wr2_info
-   chmod 0600 /sys/class/sec/sec_hw_param/eye_wr2_info
-   # hw param eye dcc info
-   chown system system /sys/class/sec/sec_hw_param/eye_dcc_info
-   chmod 0600 /sys/class/sec/sec_hw_param/eye_dcc_info
-   # hw param ap health
-   chown system system /sys/class/sec/sec_hw_param/ap_health
-   chmod 0600 /sys/class/sec/sec_hw_param/ap_health
-   # hw param last dcvs
-   chown system system /sys/class/sec/sec_hw_param/last_dcvs
-   chmod 0600 /sys/class/sec/sec_hw_param/last_dcvs
-   # hw param extra info
-   chown system system /sys/class/sec/sec_hw_param/extra_info
-   chmod 0600 /sys/class/sec/sec_hw_param/extra_info
-   # hw param extrb info
-   chown system system /sys/class/sec/sec_hw_param/extrb_info
-   chmod 0600 /sys/class/sec/sec_hw_param/extrb_info
-   # hw param extrc info
-   chown system system /sys/class/sec/sec_hw_param/extrc_info
-   chmod 0600 /sys/class/sec/sec_hw_param/extrc_info
-   # hw param extrt info
-   chown system system /sys/class/sec/sec_hw_param/extrt_info
-   chmod 0600 /sys/class/sec/sec_hw_param/extrt_info
-   # CONFIG_SEC_DEBUG --
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service qfp-daemon /system/vendor/bin/qfp-daemon
    class late_start
    user system
    group system drmrpc
- 
+
 # Allow usb charging to be disabled peristently
 on property:persist.usb.chgdisabled=1
     write /sys/class/power_supply/battery/charging_enabled 0
- 
+
 on property:persist.usb.chgdisabled=0
     write /sys/class/power_supply/battery/charging_enabled 1
- 
+
 service qrngd /system/bin/qrngd -f
    class main
    user root
    group root
- 
+
 service qrngp /system/bin/qrngp -f
    class main
    user root
    group root
    oneshot
    disabled
- 
+
 on property:sys.boot_completed=1
    start qrngp
-<<<<<<< HEAD
 
     # Stop logging service
    stop logger
 
-=======
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service vendor.qseecomd /vendor/bin/qseecomd
    class core
    user root
    group root
- 
+
 #service aostlmd /system/bin/aostlmd
 #   class late_start
 #   user system
 #   group system net_raw
-<<<<<<< HEAD
 
-=======
- 
-#service mpdecision /system/bin/mpdecision --avg_comp
-#   user root
-#   disabled
- 
-service perfd /system/vendor/bin/perfd
-   class main
-   user root
-   disabled
- 
-service gamed /system/vendor/bin/gamed
-   class main
-   user system
-   group system
-   disabled
-   socket gamed seqpacket 0640 system system
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service thermal-engine /system/vendor/bin/thermal-engine
    class main
    user root
@@ -319,7 +169,6 @@ service thermal-engine /system/vendor/bin/thermal-engine
    socket thermal-recv-passive-client stream 0666 system system
    socket thermal-send-rule stream 0660 system system
    group root
-<<<<<<< HEAD
 
 #Start NFC on supported variants
 service vendor.nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service
@@ -332,19 +181,11 @@ service vendor.nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service
 on property:ro.boot.product.hardware.sku=msm8917NFC
     start vendor.nfc_hal_service
 
-=======
- 
-service time_daemon /system/vendor/bin/time_daemon
-   class late_start
-   user root
-   group root
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service audiod /system/vendor/bin/audiod
    class late_start
    user system
    group system
- 
+
 on boot
     start rmt_storage
     insmod /system/lib/modules/adsprpc.ko
@@ -358,7 +199,7 @@ on boot
     chown system drmrpc /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch_enable
     chown system drmrpc /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch
     chown system system /sys/kernel/hbtp/display_pwr
- 
+
  # Add a cpuset for the camera daemon
  # We want all cores for camera
     mkdir /dev/cpuset/camera-daemon
@@ -367,7 +208,7 @@ on boot
     chown cameraserver cameraserver /dev/cpuset/camera-daemon
     chown cameraserver cameraserver /dev/cpuset/camera-daemon/tasks
     chmod 0660 /dev/cpuset/camera-daemon/tasks
- 
+
 ####Regionalization config and prop files####
     chmod 0644 /persist/speccfg/spec
     chmod 0644 /persist/speccfg/devicetype
@@ -385,83 +226,62 @@ on boot
     chown system system /persist/speccfg/vendor_persist.prop
     chown system system /persist/speccfg/submask
     chown system system /persist/speccfg/partition
- 
+
 # access permission for wlan
     chown system system /mnt/vendor/persist/WCNSS_qcom_wlan_nv.bin
- 
+
 #USB controller configuration
     setprop vendor.usb.rndis.func.name "rndis"
     setprop vendor.usb.rmnet.func.name "rmnet_bam"
     setprop vendor.usb.rmnet.inst.name "rmnet_bam_dmux"
     setprop vendor.usb.dpl.inst.name "dpl_bam_dmux"
-<<<<<<< HEAD
     setprop vendor.usb.qdss.inst.name "qdss"
 
-=======
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service ppd /system/vendor/bin/mm-pp-dpps
     class late_start
     disabled
     user system
     socket pps stream 0660 system system
     group system graphics
- 
+
 on property:init.svc.surfaceflinger=stopped
     stop ppd
- 
+
 on property:init.svc.surfaceflinger=running
     start ppd
- 
+
 on property:init.svc.surfaceflinger=restarting
     stop ppd
- 
+
 on property:init.svc.zygote=stopped
     stop ppd
- 
+
 on property:init.svc.zygote=running
     start ppd
- 
+
 on property:init.svc.zygote=restarting
     stop ppd
- 
+
 service wcnss-service /system/vendor/bin/wcnss_service
     class main
     user system
     group system wifi radio
     oneshot
- 
+
 on charger
-<<<<<<< HEAD
     setprop sys.usb.configfs 1
-=======
-    wait /dev/block/bootdevice/by-name/system
-    mount ext4 /dev/block/bootdevice/by-name/system /system ro barrier=1
-    load_system_props
-    setprop persist.sys.usb.config mass_storage
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
     start qcom-post-boot
     setprop persist.sys.usb.config mass_storage
     start vendor.hvdcp_opti
     start vendor.vm_bms
-<<<<<<< HEAD
 
-=======
- 
-on charger && property:ro.boot.usbconfigfs=true
-    setprop sys.usb.configfs 1
- 
-on charger && property:ro.boot.usbconfigfs=false
-    setprop sys.usb.configfs 0
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service imsstarter /vendor/bin/init.qti.ims.sh
     class main
     oneshot
- 
+
 on property:vold.decrypt=trigger_restart_framework
     start imsstarter
- 
+
 ## imsqmidaemon starts with root and UID will be downgraded to SYSTEM.
 service vendor.imsqmidaemon /system/vendor/bin/imsqmidaemon
     class main
@@ -469,10 +289,10 @@ service vendor.imsqmidaemon /system/vendor/bin/imsqmidaemon
     socket ims_qmid stream 0660 system radio
     group radio log diag
     disabled
- 
+
 on property:vendor.service.qti.ims.enabled=1
     start vendor.imsqmidaemon
- 
+
 # imsdatadaemon starts with root and UID will be downgraded to SYSTEM.
 service vendor.imsdatadaemon /system/vendor/bin/imsdatadaemon
     class main
@@ -480,55 +300,40 @@ service vendor.imsdatadaemon /system/vendor/bin/imsdatadaemon
     socket ims_datad stream 0660 system radio
     group system wifi radio inet log diag
     disabled
- 
+
 on property:vendor.ims.QMI_DAEMON_STATUS=1
     start vendor.imsdatadaemon
-<<<<<<< HEAD
 
-=======
- 
-on property:vold.decrypt=trigger_restart_framework
-    start vendor.cnss_diag
- 
-service vendor.cnss_diag /system/vendor/bin/cnss_diag -q -f
-    class main
-    user system
-    group system wifi inet diag
-    oneshot
-    capabilities NET_ADMIN
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service vendor.ims_rtp_daemon /system/vendor/bin/ims_rtp_daemon
    class main
    user system
    group radio diag inet log
- 
+
 service vendor.imsrcsservice /system/vendor/bin/imsrcsd
    class main
    user system
    group radio diag inet log wakelock
- 
+
 on property:vendor.ims.DATA_DAEMON_STATUS=1
     restart vendor.ims_rtp_daemon
- 
+
 service hbtp /system/vendor/bin/hbtp_daemon
     class main
     user system
     group system
     disabled
- 
+
 service dts_configurator /system/vendor/bin/dts_configurator
     class late_start
     user system
     group media audio
     oneshot
- 
+
 service dtseagleservice /system/vendor/bin/dts_eagle_service
     class late_start
     user system
     group audio media
     disabled
-<<<<<<< HEAD
 
 service logger /system/bin/logcat -b all -D -f /cache/boot_log.txt
     class main
@@ -537,72 +342,46 @@ service logger /system/bin/logcat -b all -D -f /cache/boot_log.txt
     disabled
     oneshot
 
-=======
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service adsprpcd /system/vendor/bin/adsprpcd
     class main
     user media
     group media
- 
+
 on property:init.svc.dts_configurator=stopped
     start dtseagleservice
- 
+
 service vendor.per_mgr /system/vendor/bin/pm-service
     class core
     user system
     group system net_raw
- 
+
 service vendor.per_proxy /system/vendor/bin/pm-proxy
     class core
     user system
     group system
     disabled
- 
+
 on property:init.svc.vendor.per_mgr=running
     start vendor.per_proxy
- 
+
 on property:sys.shutdown.requested=*
     stop vendor.per_proxy
-<<<<<<< HEAD
 
 service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
     class main
     user root
     group system wakelock
 
-=======
-    stop vendor.ims_rtp_daemon
- 
- 
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
 service vendor.vm_bms  /vendor/bin/vm_bms
     class main
     user root
     group system wakelock
- 
+
 service mdtpd /system/vendor/bin/mdtpd
     class late_start
     user root
     group system radio drmrpc
- 
+
 on boot
     write /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/fw_name PR1702898-s3528t_00260005_00380008.img
     write /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/update_fw 1
-<<<<<<< HEAD
-=======
- 
-on boot
-    chown system system /sys/class/leds/red/blink
-    chown system system /sys/class/leds/red/breath
-    chown system system /sys/class/leds/red/delay_on
-    chown system system /sys/class/leds/red/delay_off
-    chown system system /sys/class/leds/green/blink
-    chown system system /sys/class/leds/green/breath
-    chown system system /sys/class/leds/green/delay_on
-    chown system system /sys/class/leds/green/delay_off
-    chown system system /sys/class/leds/blue/blink
-    chown system system /sys/class/leds/blue/breath
-    chown system system /sys/class/leds/blue/delay_on
-    chown system system /sys/class/leds/blue/delay_off
->>>>>>> d70ce51... j2y18lte changes .. note : it cant be used on other msm8917 devices till i sort out and arrange everything
