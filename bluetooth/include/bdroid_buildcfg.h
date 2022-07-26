@@ -36,6 +36,8 @@ static inline const char *BtmGetDefaultName()
         return "Samsung Galaxy J6+";
     if (strcmp(product_device, "j4primelte") == 0)
         return "Samsung Galaxy J4+";
+    if (strcmp(product_device, "j2y18lte") == 0)
+        return "Samsung Galaxy J2 Pro";
 
     // Fallback to ro.product.model
     return "";
